@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hangi Nişanyan'sın?</title>
+<meta name="description" content="12 soruda öğren: Sevan mı, Arsen mi, Tavit mi, Ira mı? Nişanyan ailesi karakter testi." />
+<meta property="og:title" content="Hangi Nişanyan'sın?" />
+<meta property="og:description" content="12 soruda öğren: Sevan mı, Arsen mi, Tavit mi, Ira mı?" />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ededed;
+    --card:#ffffff;
+    --ink:#161616;
+    --ink2:#2a2a2a;
+    --muted:#9a9a9a;
+    --line:#e6e6e6;
+    --line2:#d8d8d8;
+    --cream:#fbf6e3;
+    --cream-line:#ece2bf;
+    --mono:'Space Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--sans);
+    background:
+      radial-gradient(900px 600px at 80% -5%, #f7f7f7 0%, rgba(247,247,247,0) 60%),
+      radial-gradient(800px 600px at 10% 110%, #f3f3f3 0%, rgba(243,243,243,0) 55%),
+      var(--bg);
+    color:var(--ink);
+    min-height:100%;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* page frame */
+  .stage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:96px 18px 92px}
+  .wrap{width:100%;max-width:460px}
+
+  /* corner furniture */
+  .corner{position:fixed;z-index:20}
+  .brand{top:26px;left:30px}
+  .brand .b1{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:lowercase;color:var(--muted)}
+  .brand .b2{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1.04;margin-top:1px}
+  .brand .b2 em{font-style:normal;color:#000}
+
+  .help{top:26px;right:30px}
+  .help button{
+    width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line2);background:#fff;cursor:pointer;
+    font-family:var(--mono);font-size:18px;font-weight:700;color:var(--ink);
+    box-shadow:0 6px 16px -8px rgba(0,0,0,.25);transition:transform .1s ease, background .15s ease;
+  }
+  .help button:hover{background:#000;color:#fff;transform:translateY(-1px)}
+
+  .credit{bottom:22px;left:50%;transform:translateX(-50%);text-align:center}
+  .credit a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:15px;letter-spacing:-.2px}
+  .credit a svg{width:15px;height:15px}
+  .credit a:hover{color:#000}
+  .credit .pre{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:#b0b0b0;text-transform:uppercase;margin-bottom:3px}
+
+  .counter{bottom:24px;right:30px;text-align:right}
+  .counter .lbl{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:#b0b0b0;text-transform:uppercase}
+  .counter .val{display:flex;align-items:center;justify-content:flex-end;gap:6px;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink2);margin-top:2px}
+  .counter .val svg{width:14px;height:14px;opacity:.7}
+
+  /* card */
+  .card{
+    background:var(--card);
+    border-radius:16px;
+    padding:30px 26px;
+    box-shadow:0 22px 60px -22px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.04);
+  }
+  .label{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+  /* intro */
+  .title{font-size:28px;font-weight:800;letter-spacing:-.8px;line-height:1.1;margin:10px 0 0}
+  .title em{font-style:normal}
+  .lead{color:#555;font-size:15px;line-height:1.62;margin:12px 0 24px}
+  .btn{
+    appearance:none;border:0;cursor:pointer;width:100%;
+    background:var(--ink);color:#fff;
+    font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    padding:17px 20px;border-radius:999px;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    transition:transform .08s ease, background .15s ease;
+  }
+  .btn:hover{background:#000}
+  .btn:active{transform:translateY(1px)}
+  .btn .arw{transition:transform .15s ease}
+  .btn:hover .arw{transform:translateX(3px)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line2)}
+  .btn.ghost:hover{background:#f4f4f4}
+  .meta{margin-top:16px;text-align:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.5px;color:#b3b3b3}
+
+  /* quiz */
+  .qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .qhead .reset{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);cursor:pointer}
+  .qhead .reset:hover{color:var(--ink)}
+  .track{height:2px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:26px}
+  .track > i{display:block;height:100%;width:0;background:var(--ink);transition:width .3s ease}
+  .q{font-size:21px;font-weight:600;line-height:1.35;letter-spacing:-.3px;margin-bottom:22px;min-height:56px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{
+    text-align:left;background:#fff;border:1.5px solid var(--line);color:var(--ink2);
+    padding:14px 15px;border-radius:11px;cursor:pointer;
+    font-family:var(--sans);font-size:14.5px;line-height:1.4;
+    transition:border-color .12s ease, background .12s ease, transform .06s ease;
+  }
+  .opt:hover{border-color:var(--ink);background:#fafafa}
+  .opt:active{transform:scale(.99)}
+
+  /* result */
+  .center{text-align:center}
+  .avatar{
+    width:104px;height:104px;border-radius:50%;object-fit:cover;
+    border:3px solid #fff;box-shadow:0 0 0 1.5px var(--line2);
+    margin:14px 0 16px;background:#eee;
+  }
+  .rname{font-size:24px;font-weight:700;letter-spacing:-.4px}
+  .rhandle{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px}
+  .rtag{display:inline-block;margin:12px 0 4px;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:var(--ink);padding:6px 12px;border-radius:999px}
+  .rstat{display:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.2px;color:var(--ink2);background:#f4f4f4;border:1px solid var(--line);border-radius:999px;padding:8px 13px;margin:14px auto 2px;width:max-content;max-width:100%}
+  .rdesc{color:#444;font-size:15px;line-height:1.62;margin:16px 2px 18px;text-align:left}
+  .quote{text-align:left;border-left:2px solid var(--ink);padding:4px 0 4px 14px;color:#555;font-style:italic;font-size:14.5px;margin-bottom:20px}
+  .traits{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:24px}
+  .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.5px;color:#666;border:1px solid var(--line2);padding:5px 10px;border-radius:999px}
+  .row{display:flex;gap:10px}
+  .xlink{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line2);padding-bottom:2px}
+  .xlink:hover{color:var(--ink);border-color:var(--ink)}
+
+  /* info modal */
+  .overlay{position:fixed;inset:0;z-index:50;background:rgba(20,20,20,.32);backdrop-filter:blur(2px);display:none;align-items:flex-start;justify-content:flex-end;padding:80px 30px}
+  .overlay.show{display:flex;animation:fade .2s ease}
+  .panel{position:relative;background:#fff;border-radius:16px;max-width:340px;width:100%;padding:26px 24px 24px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);animation:pop .22s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+  .panel .close{position:absolute;top:14px;right:14px;width:26px;height:26px;border-radius:50%;border:0;background:#161616;color:#fff;cursor:pointer;font-family:var(--mono);font-size:13px;line-height:1}
+  .panel h3{text-align:center;font-size:18px;font-weight:700;margin-bottom:14px}
+  .panel p{font-size:13.5px;line-height:1.62;color:#444;margin-bottom:14px}
+  .panel p a{color:var(--ink);font-weight:700}
+  .infohead{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .infobox{background:var(--cream);border:1px solid var(--cream-line);border-radius:11px;padding:13px 14px;font-family:var(--mono);font-size:11.5px;line-height:1.6;color:#5b5333}
+  .contact{font-size:12.5px;line-height:1.6;color:#555;margin-top:14px;margin-bottom:0;text-align:center}
+  .contact a{color:var(--ink);font-weight:700;text-decoration:none;border-bottom:1px solid var(--line2)}
+  .contact a:hover{border-color:var(--ink)}
+
+  .hidden{display:none}
+  .fade{animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* paylaşım kartı (ekran dışı, html2canvas yakalar) */
+  #shareWrap{position:fixed;left:-10000px;top:0;width:560px;background:#ededed;padding:40px;z-index:-1}
+  #shareWrap .scard{background:#fff;border-radius:24px;padding:42px 38px;text-align:center}
+  #shareWrap .slabel{font-family:var(--mono);font-size:14px;letter-spacing:3px;color:#9a9a9a;font-weight:700}
+  #shareWrap .savatar{width:152px;height:152px;border-radius:50%;object-fit:cover;margin:22px 0 18px;box-shadow:0 0 0 2px #d8d8d8}
+  #shareWrap .sname{font-size:40px;font-weight:800;letter-spacing:-.6px;color:#161616;line-height:1.1}
+  #shareWrap .shandle{font-family:var(--mono);font-size:17px;color:#9a9a9a;margin-top:5px}
+  #shareWrap .stag{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:15px;letter-spacing:2px;color:#fff;background:#161616;padding:10px 18px;border-radius:999px}
+  #shareWrap .sdesc{font-size:19px;line-height:1.62;color:#444;margin:24px 2px;text-align:left}
+  #shareWrap .squote{text-align:left;border-left:3px solid #161616;padding:6px 0 6px 16px;color:#555;font-style:italic;font-size:19px;margin-bottom:24px}
+  #shareWrap .straits{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:28px}
+  #shareWrap .straits span{font-family:var(--mono);font-size:13px;color:#666;border:1px solid #d8d8d8;padding:7px 12px;border-radius:999px}
+  #shareWrap .sfoot{font-family:var(--mono);font-size:16px;letter-spacing:.5px;color:#aaa;font-weight:700;border-top:1px solid #eee;padding-top:22px}
+
+  @media (max-width:560px){
+    .stage{padding:88px 16px 84px}
+    .brand{top:18px;left:18px}
+    .brand .b2{font-size:24px}
+    .brand .b1{font-size:11px;letter-spacing:2px}
+    .help{top:18px;right:18px}
+    .help button{width:38px;height:38px;font-size:16px}
+    .credit{left:18px;transform:none;text-align:left}
+    .credit .pre{display:none}
+    .counter{right:18px;bottom:18px}
+    .credit{bottom:18px}
+    .overlay{align-items:center;justify-content:center;padding:24px}
+  }
+</style>
+</head>
+<body>
+
+  <!-- CORNERS -->
+  <div class="corner brand">
+    <div class="b1">hangi</div>
+    <div class="b2"><em>Nişanyan</em>'sın?</div>
+  </div>
+
+  <div class="corner help">
+    <button onclick="openInfo()" aria-label="Nedir?">?</button>
+  </div>
+
+  <div class="corner credit">
+    <span class="pre">Hazırlayan</span>
+    <a href="https://x.com/hasaneyldrm" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231L18.244 2.25Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg>
+      hasaneyldrm
+    </a>
+  </div>
+
+  <div class="corner counter">
+    <div class="lbl">Tamamlayan</div>
+    <div class="val"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5c0-3-4-5.5-9-5.5Z"/></svg><span id="count">… kişi tamamladı</span></div>
+  </div>
+
+  <!-- STAGE -->
+  <div class="stage">
+   <div class="wrap">
+
+    <!-- INTRO -->
+    <section id="intro" class="card fade">
+      <div class="label">Karakter Testi</div>
+      <h1 class="title">Hangi <em>Nişanyan</em>'sın?</h1>
+      <p class="lead">Şirince'deki otel, Bitcoin'ler, Harvard, üvey anne savaşı… Twitter'ı sallayan bu aile destanında sen hangi karaktersin? Cevaplara göre dördünden biri çıkacak.</p>
+      <button class="btn" onclick="start()">Teste Başla <span class="arw">→</span></button>
+      <p class="meta">12 SORU · ~2 DAKİKA · 4 KARAKTER</p>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="card hidden">
+      <div class="qhead">
+        <span class="label" id="qnum">Soru 01 / 12</span>
+        <span class="reset" onclick="resetQuiz()">↺ baştan</span>
+      </div>
+      <div class="track"><i id="bar"></i></div>
+      <div class="q" id="qtext"></div>
+      <div class="opts" id="opts"></div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="result" class="card center hidden">
+      <div class="label">Sonuç</div>
+      <img id="ravatar" class="avatar" alt="" />
+      <div class="rname" id="rname"></div>
+      <div class="rhandle" id="rhandle"></div>
+      <div class="rtag" id="rtag"></div>
+      <div class="rstat" id="rstat"></div>
+      <p class="rdesc" id="rdesc"></p>
+      <div class="quote" id="rquote"></div>
+      <div class="traits" id="rtraits"></div>
+      <div class="row">
+        <button class="btn" id="copyBtn" onclick="primaryShare()">Görseli Kopyala</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" id="dlBtn" onclick="downloadCard()">Görseli İndir</button>
+        <button class="btn ghost" onclick="resetQuiz()">Tekrar Çöz</button>
+      </div>
+      <a class="xlink" style="cursor:pointer" onclick="tweetResult()">veya X'te metinle paylaş →</a>
+    </section>
+
+   </div>
+  </div>
+
+  <!-- INFO MODAL -->
+  <div class="overlay" id="infoOverlay" onclick="closeInfo()">
+    <div class="panel" onclick="event.stopPropagation()">
+      <button class="close" onclick="closeInfo()">✕</button>
+      <h3>Nedir?</h3>
+      <p><a href="https://x.com/hasaneyldrm" target="_blank" rel="noopener">@hasaneyldrm</a> tarafından, Twitter'da gündem olan <b>Nişanyan ailesi</b> kavgasından ilham alınarak hazırlanmış, tamamen eğlence amaçlı bir karakter testidir. 12 soruda hangi Nişanyan'a benzediğini söyler.</p>
+      <div class="infohead">Bilgilendirme</div>
+      <div class="infobox">Bu sitede size ait hiçbir bilgi kaydedilmez. Sonuçlarınız tamamen kullandığınız cihazda hesaplanır ve hiçbir yerde saklanmaz.</div>
+      <p class="contact">Bir sorun, soru ya da talebiniz olursa <a href="https://x.com/hasaneyldrm" target="_blank" rel="noopener">Twitter'dan</a> ulaşabilir veya <a href="mailto:hasanyldrm@hotmail.de">hasanyldrm@hotmail.de</a> adresine yazabilirsiniz.</p>
+    </div>
+  </div>
+
+  <!-- PAYLAŞIM KARTI (ekran dışı — html2canvas birebir yakalar) -->
+  <div id="shareWrap" aria-hidden="true">
+    <div class="scard">
+      <div class="slabel">HANGİ NİŞANYAN'SIN?</div>
+      <img id="sav" class="savatar" alt="" />
+      <div class="sname" id="sname"></div>
+      <div class="shandle" id="shandle"></div>
+      <div class="stag" id="stag"></div>
+      <p class="sdesc" id="sdesc"></p>
+      <div class="squote" id="squote"></div>
+      <div class="straits" id="straits"></div>
+      <div class="sfoot" id="sfoot"></div>
+    </div>
+  </div>
+
+<script src="html2canvas.min.js"></script>
+<script>
+/* ---------- KARAKTERLER ---------- */
+const CHARS = {
+  S:{ img:"img/sevan.jpg", handle:"NisanyanHimself",
+    name:"Sevan Nişanyan", tag:"Manyak Dâhi",
+    desc:"Sen ailenin kurucu beyni ve baş belasısın. Zeki, keskin dilli, kimseye eyvallahın yok. Haklı olduğuna o kadar eminsin ki gerekirse herkesi karşına alırsın — evladını bile reddedersin. Karizma, ego ve provokasyon: tehlikeli ama hayranlık uyandıran bir karaktersin.",
+    quote:"“Oteli ona bırakmak hayatımın hatası oldu.”",
+    traits:["dâhi","dik kafalı","provokatör","bağımsız","acımasız dürüst"] },
+  A:{ img:"img/arsen.jpg", handle:"arsennisanyan",
+    name:"Arsen Nişanyan", tag:"Harvard'lı Trol",
+    desc:"Sen ailenin zeki ve soğukkanlı olanısın. Kavgaya yumrukla değil iğneyle girersin; tek bir cümleyle viral olursun. 'Keeping up with the Nişanyanlar' diyip olayı dışarıdan tiye alacak kadar rahatsın. Net duruşun var ama her şeyi mizahla taşırsın.",
+    quote:"“Bu sanırım yedinci oldu; alıştık.”",
+    traits:["zeki","iğneci","soğukkanlı","mizah kalkanı","net duruş"] },
+  T:{ img:"img/tavit.jpg", handle:"TavitNisanyan",
+    name:"Tavit Nişanyan", tag:"Bitcoin Çocuğu",
+    desc:"Sen ailenin girişimci kurnazısın. 13 yaşında Bitcoin alacak öngören, işine gelince bot çalıştıracak pragmatizmin var. Duygusal zekân yüksek, arabulucu gibi görünürsün — ama köşeye sıkışınca 5000 kelimelik ifşa metni yazarsın. Self-made, hızlı, sürprizlerle dolu.",
+    quote:"“Dünyanın en manyak babası… bundan sonra yazılı konuşacağız.”",
+    traits:["girişimci","pragmatik","kurnaz","hustler","arabulucu ama kindar"] },
+  I:{ img:"img/ira.jpg", handle:"IraTzourou",
+    name:"Ira Tzourou", tag:"Sahnenin Patronu",
+    desc:"Sen sahneye girince herkesi susturan güçsün. Üzerine yapıştırılan etiketleri umursamaz, sınırını net çizer, tek cümleyle karşıdakini sıfırlarsın. İnsanlar seni sevmek zorunda değil — saymak zorunda. Hak ettiğini tapuda, yazılı ve net istersin.",
+    quote:"“Giydiğin pantolona saygı göster. Erkek ol.”",
+    traits:["güçlü","sınır koyan","umursamaz","stratejik","son sözü söyleyen"] }
+};
+
+/* ---------- SORULAR ---------- */
+const QUESTIONS = [
+  { q:"Aile WhatsApp grubunda senin rolün ne?", a:[
+    ["Grubu kuran, kuralları koyan, gerekirse adam atan benim","S"],
+    ["Kimse beklemezken iğneli bir laf atıp ortalığı karıştıran","A"],
+    ["Uzun uzun sesli mesaj / dev paragraf atan","T"],
+    ["“Saygılı olun” diyip sınır koyan","I"]]},
+  { q:"Para senin için ne ifade ediyor?", a:[
+    ["Özgürlük. Kimseye muhtaç olmamak","S"],
+    ["Diploma ve kafa; ben aklımla kazanırım","A"],
+    ["Erken yatırım. 13 yaşında Bitcoin alırdım","T"],
+    ["Güç ve güvence. Hak ettiğimi alırım","I"]]},
+  { q:"Bir tartışmada en güçlü silahın?", a:[
+    ["Zekâ ve acımasız dürüstlük","S"],
+    ["İğneleme ve mizah","A"],
+    ["Belgeler, ekran görüntüleri, uzun ifşa metni","T"],
+    ["Net sınır ve sert tek cümle","I"]]},
+  { q:"Şirince'deki o otel sana kalsa?", a:[
+    ["Kimseye bırakmam, ölene kadar benim","S"],
+    ["İlgilenmem bile; ben kendi yolumu çizerim","A"],
+    ["Büyütürüm, dijitale taşırım (botlar dahil 👀)","T"],
+    ["Payımı tapuda net isterim","I"]]},
+  { q:"Sosyal medya tarzın?", a:[
+    ["Provokatif, herkesi kızdıran köşe yazısı gibi","S"],
+    ["Kısa, zekice, viral olan tweet","A"],
+    ["Thread thread thread… her şeyi anlatırım","T"],
+    ["Az ama tok; “erkek ol” enerjisi","I"]]},
+  { q:"Biri seni hayal kırıklığına uğratırsa?", a:[
+    ["Reddederim, biter. Geri dönüşü yok","S"],
+    ["“Alıştık” der, espriyle geçerim","A"],
+    ["Önce konuşurum; olmazsa ifşa","T"],
+    ["Bir daha kapımdan giremez","I"]]},
+  { q:"Hayattaki en büyük 'flex'in?", a:[
+    ["Bir alanın efsanesiyim, kimse benim kadar bilmiyor","S"],
+    ["Harvard / akademik zekâ","A"],
+    ["Doğru zamanda doğru yatırım; self-made","T"],
+    ["Hiçbir damgayı umursamadan dik durmak","I"]]},
+  { q:"İdeolojik olarak nerdesin?", a:[
+    ["Kuralları ben sorgularım, kalıba girmem","S"],
+    ["Vatan-millet, net duruş","A"],
+    ["Pragmatik; ne işime yararsa","T"],
+    ["Aile ve kişisel çıkar önce","I"]]},
+  { q:"Aile kavgası patlayınca ilk hamlen?", a:[
+    ["İlk mesajı ben atarım, gündemi ben kurarım","S"],
+    ["Popcorn alır, iğneli bir tweet atarım","A"],
+    ["Kronolojik, kanıtlı bir savunma yazarım","T"],
+    ["Resmi yazı / avukat yolunu açarım","I"]]},
+  { q:"Sana göre 'kazanmak' ne?", a:[
+    ["Haklı olmak ve bunu herkese kabul ettirmek","S"],
+    ["Son sözü en zekice şekilde söylemek","A"],
+    ["Maddi olarak ayakta kalıp büyümek","T"],
+    ["Sınırını koruyup pozisyonunu sağlamlaştırmak","I"]]},
+  { q:"Bir Netflix dizisi olsan rolün?", a:[
+    ["Karizmatik ama tehlikeli anti-kahraman","S"],
+    ["Olayları dışarıdan tiye alan zeki karakter","A"],
+    ["Sürpriz hamleleriyle herkesi şaşırtan kurnaz","T"],
+    ["Sahneye girince herkesi susturan güç","I"]]},
+  { q:"Yunanistan mı, Türkiye mi? (şaka şaka… ya da değil)", a:[
+    ["İkisi de değil, ben evrenselim","S"],
+    ["Türkiye, tartışmasız","A"],
+    ["Param neredeyse orası 😎","T"],
+    ["Köklerim ve evim neredeyse orası","I"]]}
+];
+
+/* ---------- MOTOR ---------- */
+let idx=0, score={S:0,A:0,T:0,I:0};
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,"0");
+
+function start(){
+  $("intro").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  idx=0; score={S:0,A:0,T:0,I:0};
+  render();
+}
+function render(){
+  const item=QUESTIONS[idx], total=QUESTIONS.length;
+  $("bar").style.width=(idx/total*100)+"%";
+  $("qnum").textContent=`Soru ${pad(idx+1)} / ${total}`;
+  const quiz=$("quiz");
+  quiz.classList.remove("fade"); void quiz.offsetWidth; quiz.classList.add("fade");
+  $("qtext").textContent=item.q;
+  const box=$("opts"); box.innerHTML="";
+  item.a.forEach(([label,key])=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.textContent=label;
+    b.onclick=()=>pick(key);
+    box.appendChild(b);
+  });
+}
+function pick(key){
+  score[key]++; idx++;
+  if(idx<QUESTIONS.length){ render(); } else { finish(); }
+}
+function finish(){
+  $("bar").style.width="100%";
+  const order=["S","A","T","I"];
+  let best=order[0];
+  order.forEach(k=>{ if(score[k]>score[best]) best=k; });
+  const c=CHARS[best];
+  $("quiz").classList.add("hidden");
+  const r=$("result");
+  r.classList.remove("hidden"); r.classList.remove("fade"); void r.offsetWidth; r.classList.add("fade");
+  const av=$("ravatar");
+  av.src=c.img; av.alt=c.name;
+  av.onerror=function(){ this.onerror=null; this.src="https://unavatar.io/twitter/"+c.handle; };
+  $("rname").textContent=c.name;
+  $("rhandle").textContent="@"+c.handle;
+  $("rtag").textContent=c.tag;
+  $("rdesc").textContent=c.desc;
+  $("rquote").textContent=c.quote;
+  $("rtraits").innerHTML=c.traits.map(t=>`<span class="chip">#${t.replace(/ /g,"_")}</span>`).join("");
+  // paylaşım kartını (ekran dışı) doldur
+  $("sav").src=c.img;
+  $("sname").textContent=c.name;
+  $("shandle").textContent="@"+c.handle;
+  $("stag").textContent=c.tag.toLocaleUpperCase("tr");
+  $("sdesc").textContent=c.desc;
+  $("squote").textContent=c.quote;
+  $("straits").innerHTML=c.traits.map(t=>`<span>#${t.replace(/ /g,"_")}</span>`).join("");
+  $("sfoot").textContent=((location.hostname && location.protocol!=="file:")?location.hostname:"hanginisanyansin")+"  ·  @hasaneyldrm";
+  window.__result=c;
+  try{history.replaceState(null,"","#"+best);}catch(e){}
+  window.scrollTo({top:0,behavior:"smooth"});
+  $("rstat").style.display="none";
+  const mob = navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  $("copyBtn").textContent = mob ? "Görseli Paylaş" : "Görseli Kopyala";
+  recordResult(best);
+}
+function resetQuiz(){
+  $("result").classList.add("hidden");
+  $("quiz").classList.add("hidden");
+  $("intro").classList.remove("hidden");
+  try{history.replaceState(null,"","#");}catch(e){}
+}
+function siteURL(){ return location.href.split("#")[0]; }
+function shareText(){
+  const c=window.__result||CHARS.S;
+  return `Ben "${c.name}" (${c.tag}) çıktım! 😄 Sen hangi Nişanyan'sın?`;
+}
+function tweetResult(){
+  const t=shareText()+" #HangiNisanyansin";
+  window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(t)+"&url="+encodeURIComponent(siteURL()),"_blank","noopener");
+}
+
+/* ---- paylaşılabilir kart: ekrandaki kartı html2canvas ile birebir görsele çevir ---- */
+async function cardBlob(){
+  const node=document.getElementById("shareWrap");
+  if(!node || typeof html2canvas!=="function") return null;
+  try{ if(document.fonts && document.fonts.ready) await document.fonts.ready; }catch(e){}
+  try{
+    const cv=await html2canvas(node,{backgroundColor:"#ededed",scale:2,useCORS:true,logging:false});
+    return await new Promise(res=>{ try{ cv.toBlob(b=>res(b),"image/png"); }catch(e){ res(null); } });
+  }catch(e){ return null; }
+}
+function saveBlob(blob){
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="hangi-nisanyan.png";
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+function flash(btn,msg){ const o=btn.textContent; btn.textContent=msg; setTimeout(()=>{btn.textContent=o;},1800); }
+
+/* mobil: paylaş sayfası (fotoğraflı), masaüstü: panoya kopyala */
+async function primaryShare(){
+  const btn=$("copyBtn"); flash(btn,"Hazırlanıyor…");
+  const blob=await cardBlob();
+  if(!blob){ tweetResult(); return; }       // file:// / tarayıcı engeli → metinle paylaş
+  const file=new File([blob],"hangi-nisanyan.png",{type:"image/png"});
+  const mob = navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  if(mob && navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file],text:shareText()+" "+siteURL()}); return; }
+    catch(e){ if(e&&e.name==="AbortError") return; }
+  }
+  try{
+    await navigator.clipboard.write([new ClipboardItem({"image/png":blob})]);
+    flash(btn,"Kopyalandı ✓ tweet'e yapıştır"); return;
+  }catch(e){}
+  saveBlob(blob); flash(btn,"İndirildi ✓");
+}
+async function downloadCard(){
+  const blob=await cardBlob(); if(!blob){ tweetResult(); return; }
+  saveBlob(blob); flash($("dlBtn"),"İndirildi ✓");
+}
+
+/* ---------- INFO PANEL ---------- */
+function openInfo(){ $("infoOverlay").classList.add("show"); }
+function closeInfo(){ $("infoOverlay").classList.remove("show"); }
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeInfo(); });
+
+/* ---------- SAYAÇ (global, anonim) ---------- */
+const CNT="https://abacus.jasoncameron.dev", NS="hanginisanyansin", KEY="tamamlandi";
+const CHAR_KEY={S:"r_sevan",A:"r_arsen",T:"r_tavit",I:"r_ira"};
+const fmt=n=>Number(n).toLocaleString("tr-TR");
+function showCount(n){ $("count").textContent = fmt(n)+" kişi tamamladı"; }
+async function abacusHit(key){ try{ const r=await fetch(`${CNT}/hit/${NS}/${key}`); const j=await r.json(); return (j&&typeof j.value==="number")?j.value:null; }catch(e){ return null; } }
+async function abacusGet(key){ try{ const r=await fetch(`${CNT}/get/${NS}/${key}`); const j=await r.json(); return (j&&typeof j.value==="number")?j.value:0; }catch(e){ return 0; } }
+async function loadCount(){ const v=await abacusGet(KEY); if(v) showCount(v); }
+
+async function recordResult(best){
+  if(!localStorage.getItem("hn_counted")){
+    localStorage.setItem("hn_counted",best);
+    const v=await abacusHit(KEY); if(typeof v==="number") showCount(v);
+    await abacusHit(CHAR_KEY[best]);
+  } else { loadCount(); }
+  showDistribution(best);
+}
+async function showDistribution(best){
+  const ks=["S","A","T","I"];
+  const vals=await Promise.all(ks.map(k=>abacusGet(CHAR_KEY[k])));
+  const total=vals.reduce((a,b)=>a+b,0);
+  const mine=vals[ks.indexOf(best)];
+  const el=$("rstat");
+  if(total>0 && mine>0){
+    const pct=Math.max(1,Math.round(mine/total*100));
+    const fn=CHARS[best].name.split(" ")[0];
+    el.textContent=`Test çözenlerin %${pct}'i senin gibi ${fn} çıktı 🔥`;
+    el.style.display="";
+  } else { el.style.display="none"; }
+}
+loadCount();
+</script>
+</body>
+</html>
